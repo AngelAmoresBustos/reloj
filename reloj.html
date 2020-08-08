@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	
+	<meta charset="UTF-8">
+	<meta name="description" content="Canvas">
+	<meta name="keywords" content="html canvas">
+	<title>Canvas</title>
+	
+	<style>
+		section {
+			width:1000px;
+			position: relative;
+			margin: auto;
+			background: #D4AF37;
+		}
+
+		#lienzo {
+			box-shadow:2px 2px 2px 4px;
+		}
+		
+	</style>
+	
+	<script>
+		var horas=0;
+		var minutos=0;
+		var segundos=0;
+		function inicio(){
+			var elemento=document.getElementById("lienzo");
+			lienzo=elemento.getContext("2d");
+
+			setInterval(reloj,1000);
+		}
+		
+		function reloj() {
+			var angulo;
+			var xcentro=500;
+			var ycentro=300;
+			var Digital=new Date();
+
+			horas=Digital.getHours();
+			minutos=Digital.getMinutes();
+			segundos=Digital.getSeconds();
+			
+			lienzo.clearRect(0,0,1000,600);
+			lienzo.beginPath();
+			lienzo.lineWidth=12;
+			lienzo.arc(xcentro,ycentro,205,0,Math.PI*2,false);
+			lienzo.arc(xcentro,ycentro,215,0,Math.PI*2,false);
+			lienzo.lineWidth=3;
+			lienzo.moveTo(xcentro,ycentro);
+			lienzo.arc(xcentro,ycentro,4,0,Math.PI*2,false);
+			lienzo.fillText(horas+":"+minutos+":"+segundos,480,400);
+			lienzo.stroke();
+			lienzo.lineWidth=1;
+
+			horas=Digital.getHours() - 3;
+			minutos=Digital.getMinutes() - 15;
+			segundos=Digital.getSeconds() - 15;
+			
+			for(var i=0;i<60;i++){ 
+				angulo=(i*6)*(Math.PI/180);
+				y=ycentro+Math.round(Math.sin(angulo)*195); 
+				x=xcentro+Math.round(Math.cos(angulo)*195); 
+				lienzo.beginPath();
+				lienzo.moveTo(x,y); 
+				lienzo.arc(x,y,1,0,Math.PI*2,false);
+				lienzo.stroke(); 
+			 } 
+
+			for(var i=0;i<12;i++){ 
+				angulo=(i*30)*(Math.PI/180);
+				y=ycentro+Math.round(Math.sin(angulo)*195); 
+				x=xcentro+Math.round(Math.cos(angulo)*195); 
+				lienzo.beginPath();
+				lienzo.moveTo(x,y);
+				lienzo.arc(x,y,5,0,Math.PI*2,false);
+				lienzo.fill();
+			 } 
+				//Segundos
+				angulo=(segundos*6)*(Math.PI/180);
+				y=ycentro+Math.round(Math.sin(angulo)*185); 
+				x=xcentro+Math.round(Math.cos(angulo)*185); 
+				lienzo.beginPath();
+				lienzo.strokeStyle="red";
+				lienzo.moveTo(xcentro,ycentro);
+				lienzo.lineTo(x,y);				
+				lienzo.stroke();
+
+				//minutos
+				angulo=(minutos*6)*(Math.PI/180);
+				y=ycentro+Math.round(Math.sin(angulo)*170); 
+				x=xcentro+Math.round(Math.cos(angulo)*170); 
+				lienzo.beginPath();
+				lienzo.strokeStyle="black";
+				lienzo.lineWidth=2;
+				lienzo.moveTo(xcentro,ycentro);
+				lienzo.lineTo(x,y);				
+				lienzo.stroke();
+				lienzo.lineWidth=1;
+
+				//horas
+				angulo=(horas*30)*(Math.PI/180);
+				y=ycentro+Math.round(Math.sin(angulo)*150); 
+				x=xcentro+Math.round(Math.cos(angulo)*150); 
+				lienzo.beginPath();
+				lienzo.lineWidth=5;
+				lienzo.strokeStyle="black";
+				lienzo.moveTo(xcentro,ycentro);
+				lienzo.lineTo(x,y);				
+				lienzo.stroke();
+				lienzo.lineWidth=1;
+		}	
+		
+		window.addEventListener("load",inicio,false);
+	</script>
+	
+</head>
+<body>
+	<section id="dibujo">
+		<canvas id="lienzo" width="1000" height="600">
+			su navegador no soporta canvas
+		</canvas>
+	</section>
+</body>
+</html>
